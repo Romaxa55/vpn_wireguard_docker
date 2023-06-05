@@ -12,7 +12,7 @@ services:
       PGID: 1000
       TZ: Etc/UTC
       SERVERURL: vpn.roshamagin.site
-      SERVERPORT: 63240
+      SERVERPORT: 51820
       PEERS: 1
       PEERDNS: auto
       INTERNAL_SUBNET: 10.13.13.0
@@ -23,7 +23,7 @@ services:
       - ./config:/config
       - /lib/modules:/lib/modules #optional
     ports:
-      - 63240:63240/udp
+      - 51820:51820/udp
     sysctls:
        net.ipv4.conf.all.src_valid_mark: 1
     restart: unless-stopped
