@@ -1,0 +1,30 @@
+---
+version: '3.7'
+
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Etc/UTC
+      SERVERURL: vpn.roshamagin.site
+      SERVERPORT: 63240
+      PEERS: 1
+      PEERDNS: auto
+      INTERNAL_SUBNET: 10.13.13.0
+      ALLOWEDIPS: 0.0.0.0/0
+      PERSISTENTKEEPALIVE_PEERS:
+      LOG_CONFS: true
+    volumes:
+      - ./config:/config
+      - /lib/modules:/lib/modules #optional
+    ports:
+      - 63240:63240/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
