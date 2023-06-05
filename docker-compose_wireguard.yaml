@@ -33,7 +33,6 @@ services:
     restart: unless-stopped
     networks:
       ipv6_net:
-        ipv6_address: 2001:470:1f08:27::2
 
 networks:
   ipv6_net:
