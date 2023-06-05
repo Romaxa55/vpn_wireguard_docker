@@ -1,6 +1,19 @@
 ---
 version: '3.7'
 
+
+networks:
+  app_net:
+    enable_ipv6: true
+    driver: overlay
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 10.13.13.0/24
+      -
+        subnet: 2001:470:1f08:27::/64
+
 services:
   wireguard:
     image: lscr.io/linuxserver/wireguard:latest
@@ -26,4 +39,5 @@ services:
       - 63247:51820/udp
     sysctls:
        net.ipv4.conf.all.src_valid_mark: 1
-    restart: unless-stopped
+    networks:
+      - app_net
