@@ -1,42 +1,29 @@
-version: '3.8'
+version: '3.7'
+
+volumes:
+  traefik: { driver: local }
 
 services:
-
   traefik:
-    image: traefik:latest
-    command:
-      - --providers.docker=true
-      - --providers.docker.swarmMode=true
-      - --providers.docker.endpoint=unix:///var/run/docker.sock
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --certificatesresolvers.myresolver.acme.dnschallenge=true
-      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
-      - --certificatesresolvers.myresolver.acme.email=info@roshamagin.site
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+    image: docker.io/traefik:latest
+    restart: always
     environment:
-      - CF_DNS_API_TOKEN=$CF_API_KEY
+      CF_DNS_API_TOKEN: $CF_API_KEY # use export CF_API_KEY=token clioudflare
+    command:
+     - --api.insecure=false
+     - --providers.docker=true
+     - --providers.docker.exposedbydefault=false
+     - --entrypoints.web.address=:80
+     - --entrypoints.web.http.redirections.entryPoint.to=https
+     - --entrypoints.web.http.redirections.entryPoint.scheme=https
+     - --entrypoints.https.address=:443
+     - --certificatesresolvers.myresolver.acme.dnschallenge=true
+     - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
+     - --certificatesresolvers.myresolver.acme.email=${LETSENCRYPT_EMAIL?need email for cert expiry notifications}
+     - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     ports:
       - 80:80
       - 443:443
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/glusterfs/letsencrypt:/letsencrypt
-    networks:
-      - postgres-network
-    deploy:
-      labels:
-        - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      placement:
-        constraints:
-          - node.role == manager
-
-networks:
-  public:
-    external: true
-  galera_galera-network:
-    external: true
-
-volumes:
-  content:
-    driver: local
+      - traefik:/letsencrypt:rw
+      - /run/docker.sock:/var/run/docker.sock:ro
