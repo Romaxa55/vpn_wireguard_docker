@@ -1,10 +1,6 @@
 ---
 version: '3.7'
 
-networks:
-  wireguard:
-    enable_ipv6: true
-
 services:
   wireguard:
     image: lscr.io/linuxserver/wireguard:latest
@@ -31,14 +27,3 @@ services:
     sysctls:
        net.ipv4.conf.all.src_valid_mark: 1
     restart: unless-stopped
-    networks:
-      ipv6_net:
-
-networks:
-  ipv6_net:
-    driver: overlay
-    enable_ipv6: true
-    ipam:
-      driver: default
-      config:
-        - subnet: 2001:470:1f08:27::/64
