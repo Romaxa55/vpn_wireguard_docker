@@ -31,7 +31,7 @@ services:
     sysctls:
        net.ipv4.conf.all.src_valid_mark: 1
     restart: unless-stopped
-     networks:
+    networks:
       ipv6_net:
         ipv6_address: 2001:470:1f08:27::2
 
