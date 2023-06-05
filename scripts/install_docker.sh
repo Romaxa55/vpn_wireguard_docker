@@ -25,3 +25,5 @@ curl -L "https://github.com/docker/compose/releases/download/v2.18.1/docker-comp
 chmod +x /usr/local/bin/docker-compose
 
 docker-compose --version
+
+docker swarm init
