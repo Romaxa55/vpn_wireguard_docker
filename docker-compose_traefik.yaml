@@ -9,6 +9,7 @@ services:
     restart: always
     environment:
       CF_DNS_API_TOKEN: $CF_API_KEY # use export CF_API_KEY=token clioudflare
+      LETSENCRYPT_EMAIL: $LETSENCRYPT_EMAIL
     command:
      - --api.insecure=false
      - --providers.docker=true
