@@ -1,6 +1,10 @@
 ---
 version: '3.7'
 
+networks:
+  wireguard:
+    enable_ipv6: true
+
 services:
   wireguard:
     image: lscr.io/linuxserver/wireguard:latest
@@ -24,9 +28,17 @@ services:
       - /lib/modules:/lib/modules #optional
     ports:
       - 63247:51820/udp
-    network_mode: "host"
     sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.disable_ipv6=0
-      - net.ipv6.conf.eth0.proxy_ndp=1
+       net.ipv4.conf.all.src_valid_mark: 1
     restart: unless-stopped
+     networks:
+      ipv6_net:
+        ipv6_address: 2001:470:1f08:27::2
+
+networks:
+  ipv6_net:
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 2001:470:1f08:27::/64
