@@ -37,6 +37,7 @@ services:
 
 networks:
   ipv6_net:
+    driver: overlay
     enable_ipv6: true
     ipam:
       driver: default
