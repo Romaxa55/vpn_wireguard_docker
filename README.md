@@ -4,8 +4,10 @@
 
 ```json
 {
-"ipv6": true,
-"fixed-cidr-v6": "fc0c::/64"
+  "ipv6": true,
+  "fixed-cidr-v6": "2001:db8:1::/64",
+  "experimental": true,
+  "ip6tables": true
 }
 ```
 

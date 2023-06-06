@@ -3,7 +3,8 @@ version: '3.7'
 
 networks:
   ip6net:
-    external: true
+    enable_ipv6: true
+    subnet: 2001:0DB8::/112
 
 services:
   wireguard:
