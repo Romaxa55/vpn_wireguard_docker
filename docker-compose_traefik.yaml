@@ -67,6 +67,8 @@ services:
         - traefik.http.routers.wg-gui.entrypoints=websecure
         - traefik.http.routers.wg-gui.tls.certresolver=myresolver
         - traefik.http.services.wg-gui.loadbalancer.server.port=5000
+    networks:
+      - public
 
   agent:
     image: portainer/agent:latest
