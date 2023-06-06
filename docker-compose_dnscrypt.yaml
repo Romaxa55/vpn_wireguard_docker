@@ -11,13 +11,14 @@ services:
     command: "init -N dns.roshamagin.site -E '127.0.0.1:5443'"
     container_name: dnscrypt_init
 
-  dnscrypt_start:
+  dnscrypt_server:
     <<: *dnscrypt_base
     command: "start"
-    container_name: dnscrypt_start
+    container_name: dnscrypt_server
 
   dnscrypt_proxy:
     image: klutchell/dnscrypt-proxy
+    container_name: dnscrypt_proxy
     volumes:
       - ./config:/config
     restart: always
