@@ -1,6 +1,10 @@
 ---
 version: '3.7'
 
+networks:
+  ip6net:
+    external: true
+
 services:
   wireguard:
     image: lscr.io/linuxserver/wireguard:latest
@@ -22,6 +26,9 @@ services:
     volumes:
       - ./config:/config
       - /lib/modules:/lib/modules #optional
-    network_mode: host
-    restart: unless-stopped
-
+    ports:
+      - 63247:51820/udp
+    sysctls:
+       net.ipv4.conf.all.src_valid_mark: 1
+    networks:
+      - ip6net
