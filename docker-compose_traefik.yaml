@@ -41,7 +41,7 @@ services:
     restart: always
     volumes:
       - data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - '/var/run/docker.sock:/var/run/docker.sock'
     networks:
       - public
     labels:
@@ -60,8 +60,5 @@ volumes:
     driver: local
 
 networks:
-  agent_network:
-    driver: overlay
-    attachable: true
   public:
      external: true
