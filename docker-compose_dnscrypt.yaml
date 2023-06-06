@@ -31,10 +31,10 @@ services:
       - 53:53/udp
     depends_on:
       - dnscrypt_server
-    networks:
-      ip6net:
-        ipv4_address: 172.19.0.5
-        ipv6_address: 2001:db8::5
+        networks:
+       ip6net:
+        ipv4_address: 172.19.0.100
+        ipv6_address: 2001:db8::a:71a5:100
 
   dig_tester:
     image: tutum/dnsutils
@@ -48,4 +48,5 @@ volumes:
 
 networks:
   ip6net:
-    external:true
+    external: true
+
