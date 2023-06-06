@@ -49,6 +49,7 @@ networks:
   ip6net:
     external: true
   customnetwork:
+    enable_ipv6: true
     ipam:
       config:
         - subnet: 172.20.0.0/16
