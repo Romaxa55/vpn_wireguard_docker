@@ -49,6 +49,8 @@ services:
     volumes:
       - ./db:/app/db
       - ./config:/etc/wireguard
+    networks:
+      - ip6net
 
 networks:
   ip6net:
