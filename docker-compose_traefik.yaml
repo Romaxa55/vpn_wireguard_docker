@@ -36,44 +36,6 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
-  wg-gui:
-    image: ngoduykhanh/wireguard-ui:latest
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - SENDGRID_API_KEY
-      - EMAIL_FROM_ADDRESS
-      - EMAIL_FROM_NAME
-      - SESSION_SECRET
-      - WGUI_USERNAME=alpha
-      - WGUI_PASSWORD=this-unusual-password
-      - WG_CONF_TEMPLATE
-      - WGUI_MANAGE_START=false
-      - WGUI_MANAGE_RESTART=false
-      - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg0.conf
-      - WGUI_SERVER_LISTEN_PORT=63247
-      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=0.0.0.0/0, ::0/0
-      - WGUI_DEFAULT_CLIENT_ENABLE_AFTER_CREATION=false
-    logging:
-      driver: json-file
-      options:
-        max-size: 50m
-    volumes:
-      - ./db:/app/db
-      - ./config:/etc/wireguard
-      - /var/run/docker.sock:/var/run/docker.sock
-    deploy:
-      replicas: 1
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.wg-gui.tls=true
-        - traefik.http.routers.wg-gui.rule=Host(`vpn.roshamagin.site`) || Host(`www.vpn.roshamagin.site`)
-        - traefik.http.routers.wg-gui.entrypoints=websecure
-        - traefik.http.routers.wg-gui.tls.certresolver=myresolver
-        - traefik.http.services.wg-gui.loadbalancer.server.port=5000
-    networks:
-      - public
-
   agent:
     image: portainer/agent:latest
     environment:
@@ -112,7 +74,6 @@ services:
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls.certresolver=myresolver
         - traefik.http.services.portainer.loadbalancer.server.port=9000
-
 
 volumes:
   data:
