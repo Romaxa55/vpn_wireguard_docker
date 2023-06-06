@@ -18,9 +18,9 @@ services:
       SERVERURL: vpn.roshamagin.site
       SERVERPORT: 63247
       PEERS: 1
-      PEERDNS: 1.1.1.1, 2606:4700:4700::1111
-      INTERNAL_SUBNET: 10.13.13.0/24, fd00::/64
-      ALLOWEDIPS: 0.0.0.0/0, ::/0
+      PEERDNS: 1.1.1.1,2606:4700:4700::1111
+      INTERNAL_SUBNET: 10.13.13.0/24,fd00::/64
+      ALLOWEDIPS: 0.0.0.0/0,::/0
       PERSISTENTKEEPALIVE_PEERS: 25
       LOG_CONFS: "true"
     volumes:
