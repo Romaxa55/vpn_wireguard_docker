@@ -53,9 +53,11 @@ services:
   adguard:
     image: adguard/adguardhome
     container_name: adguardhome
-    ip6net:
+    networks:
+       ip6net:
           ipv4_address: 172.19.0.53
           ipv6_address: 2001:db8::a:71a5:53
+       public:
     volumes:
       - ./config/work:/opt/adguardhome/work
       - ./config/adguard/conf:/opt/adguardhome/conf
@@ -72,6 +74,8 @@ volumes:
   keys:
 
 networks:
+  public:
+    external: true
   ip6net:
     name: ip6net
     enable_ipv6: true
