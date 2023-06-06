@@ -84,7 +84,6 @@ services:
     volumes:
       - data:/data
     networks:
-      - public
       - agent_network
     deploy:
       mode: replicated
