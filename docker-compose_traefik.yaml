@@ -27,3 +27,29 @@ services:
     volumes:
       - traefik:/letsencrypt:rw
       - /run/docker.sock:/var/run/docker.sock:ro
+
+  wg-gui:
+    image: ngoduykhanh/wireguard-ui:latest
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - SENDGRID_API_KEY
+      - EMAIL_FROM_ADDRESS
+      - EMAIL_FROM_NAME
+      - SESSION_SECRET
+      - WGUI_USERNAME=alpha
+      - WGUI_PASSWORD=this-unusual-password
+      - WG_CONF_TEMPLATE
+      - WGUI_MANAGE_START=false
+      - WGUI_MANAGE_RESTART=false
+    logging:
+      driver: json-file
+      options:
+        max-size: 50m
+    volumes:
+      - ./db:/app/db
+      - ./config:/etc/wireguard
+
+networks:
+  ip6net:
+    external: true
