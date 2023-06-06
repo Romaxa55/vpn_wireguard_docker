@@ -15,6 +15,10 @@ services:
     <<: *dnscrypt_base
     command: "start"
     container_name: dnscrypt_server
+    networks:
+      dns-network:
+        ipv4_address: 172.16.238.20
+        ipv6_address: 2001:db8::20
 
   dnscrypt_proxy:
     image: klutchell/dnscrypt-proxy
@@ -27,5 +31,26 @@ services:
       - 53:53/udp
     depends_on:
       - dnscrypt_server
+    networks:
+      dns-network:
+        ipv4_address: 172.16.238.30
+        ipv6_address: 2001:db8::30
+
+  dig_tester:
+    image: tutum/dnsutils
+    restart: 'no'
+    networks:
+      dns-network:
+        ipv4_address: 172.16.238.40
+        ipv6_address: 2001:db8::40
+    command: ["sh", "-c", "sleep infinity"]
 volumes:
   keys:
+
+networks:
+  dns-network:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
+        - subnet: 2001:db8::/64
