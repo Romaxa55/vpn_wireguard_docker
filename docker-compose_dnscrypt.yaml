@@ -35,7 +35,7 @@ services:
       ip6net:
       customnetwork:
         ipv4_address: 172.20.0.100
-        ipv6_address: 2001:db8::100
+        ipv6_address: 2001:db8::a:71a6
 
   dig_tester:
     image: tutum/dnsutils
@@ -54,4 +54,4 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/16
-        - subnet: 2001:db8::/127
+        - subnet: 2001:db8::a:71a5/125
