@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stack deploy --compose-file docker-compose_wireguard.yaml vpn
+docker-compose -f docker-compose_wireguard.yaml up -d
