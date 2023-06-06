@@ -63,6 +63,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.wg-gui.tls=true
+        - traefik.docker.network=public
+        - traefik.constraint-label=public
         - traefik.http.routers.wg-gui.rule=Host(`vpn.roshamagin.site`) || Host(`www.vpn.roshamagin.site`)
         - traefik.http.routers.wg-gui.entrypoints=websecure
         - traefik.http.routers.wg-gui.tls.certresolver=myresolver
