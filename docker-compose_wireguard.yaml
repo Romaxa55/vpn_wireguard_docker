@@ -1,18 +1,6 @@
 ---
 version: '3.7'
 
-networks:
-  ip6net:
-    name: ip6net
-    enable_ipv6: true
-    attachable: true
-    ipam:
-      config:
-        - subnet: 172.19.0.0/16
-          gateway: 172.19.0.1
-        - subnet: 2001:db8::a:71a5/64
-          gateway: 2001:db8::a:71a5:1
-
 services:
   wireguard:
     image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.0.3
@@ -45,3 +33,34 @@ services:
        ip6net:
         ipv4_address: 172.19.0.10
         ipv6_address: 2001:db8::a:71a5:10
+
+  dnscrypt_proxy:
+    image: klutchell/dnscrypt-proxy
+    container_name: dnscrypt_proxy
+    volumes:
+      - ./config/dnscrypt-proxy.toml:/config/dnscrypt-proxy.toml
+    restart: always
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+    depends_on:
+      - wireguard
+    networks:
+       ip6net:
+          ipv4_address: 172.19.0.100
+          ipv6_address: 2001:db8::a:71a5:100
+
+volumes:
+  keys:
+
+networks:
+  ip6net:
+    name: ip6net
+    enable_ipv6: true
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
+        - subnet: 2001:db8::a:71a5/64
+          gateway: 2001:db8::a:71a5:1
