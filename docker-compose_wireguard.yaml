@@ -10,7 +10,7 @@ networks:
       config:
         - subnet: 172.19.0.0/16
           gateway: 172.19.0.1
-        - subnet: 2001:db8::a:71a5/125
+        - subnet: 2001:db8::a:71a5/64
           gateway: 2001:db8::a:71a5:1
 
 services:
