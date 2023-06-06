@@ -52,7 +52,7 @@ services:
 
   adguard:
     image: adguard/adguardhome
-    container_name: adguardhome
+    container_name: adguard
     networks:
        ip6net:
           ipv4_address: 172.19.0.53
