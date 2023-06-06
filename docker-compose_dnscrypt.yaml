@@ -23,6 +23,6 @@ services:
       - ./config:/config
     restart: always
     depends_on:
-      - dnscrypt_start
+      - dnscrypt_server
 volumes:
   keys:
