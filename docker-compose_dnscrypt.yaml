@@ -48,9 +48,4 @@ volumes:
 
 networks:
   ip6net:
-    enable_ipv6: true
-    attachable: true
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
-        - subnet: 2001:db8::a:71a5/125
+    external:true

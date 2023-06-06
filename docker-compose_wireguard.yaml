@@ -3,6 +3,7 @@ version: '3.7'
 
 networks:
   ip6net:
+    name: ip6net
     enable_ipv6: true
     attachable: true
     ipam:
