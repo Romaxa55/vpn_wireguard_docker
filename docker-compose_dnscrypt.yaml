@@ -33,13 +33,14 @@ services:
       - dnscrypt_server
     networks:
       ip6net:
+      customnetwork:
+        ipv4_address: 172.20.0.100
 
   dig_tester:
     image: tutum/dnsutils
     restart: 'no'
     networks:
       ip6net:
-        ipv4_address: 10.2.0.100
     command: ["sh", "-c", "sleep infinity"]
 volumes:
   keys:
@@ -47,3 +48,7 @@ volumes:
 networks:
   ip6net:
     external: true
+  customnetwork:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
