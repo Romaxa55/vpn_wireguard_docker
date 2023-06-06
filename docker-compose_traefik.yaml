@@ -4,14 +4,14 @@ volumes:
   traefik: { driver: local }
 
 services:
-  raefik:
+  traefik:
     image: "traefik:latest"
     environment:
       CF_DNS_API_TOKEN: $CF_API_KEY # use export CF_API_KEY=token clioudflare
     command:
       - --log.level=DEBUG
       - --providers.docker.network=public
-      - --providers.docker.swarmMode=true
+      - --providers.docker.swarmMode=false
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
