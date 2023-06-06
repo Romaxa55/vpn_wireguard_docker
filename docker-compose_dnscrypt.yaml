@@ -1,15 +1,21 @@
 version: "3"
+
 services:
-  dnscrypt:
+  dnscrypt_init:
+    <<: &dnscrypt_base
     image: zquestz/dnscrypt-server:latest
-    container_name: dnscrypt
     restart: always
-    command: "init -N dns.roshamagin.site -E '127.0.0.1:5443'"
-    #command: "start"
     volumes:
       - keys:/opt/encrypted-dns/etc/keys
     environment:
-    - TZ='UTC'
+      - TZ='UTC'
+    command: "init -N dns.roshamagin.site -E '127.0.0.1:5443'"
+    container_name: dnscrypt_init
+
+  dnscrypt_start:
+    <<: *dnscrypt_base
+    command: "start"
+    container_name: dnscrypt_start
 
 volumes:
   keys:
