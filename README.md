@@ -12,5 +12,6 @@
 ```
 
 ```bash
-docker network create --attachable --driver overlay --ipv6 --subnet 2001:470:1f08:27::/64 --opt encrypted app_net
+docker network create --ipv6 --subnet 2001:0DB8::/112  --attachable ip6net
+./scripts/run_vpn.sh
  ```
