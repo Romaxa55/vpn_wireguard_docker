@@ -63,8 +63,6 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.wg-gui.tls=true
-        - traefik.docker.network=public
-        - traefik.constraint-label=public
         - traefik.http.routers.wg-gui.rule=Host(`vpn.roshamagin.site`) || Host(`www.vpn.roshamagin.site`)
         - traefik.http.routers.wg-gui.entrypoints=websecure
         - traefik.http.routers.wg-gui.tls.certresolver=myresolver
@@ -88,7 +86,7 @@ services:
         constraints: [node.platform.os == linux]
 
   portainer:
-    image: portainer/portainer-ee:latest
+    image: portainer/portainer-ce:latest
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
       - data:/data
@@ -103,13 +101,12 @@ services:
           - node.role == manager
       labels:
         - traefik.enable=true
-        - traefik.docker.network=public
-        - traefik.constraint-label=public
         - traefik.http.routers.portainer.tls=true
         - traefik.http.routers.portainer.rule=Host(`portainer.vpn.roshamagin.site`)
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls.certresolver=myresolver
         - traefik.http.services.portainer.loadbalancer.server.port=9000
+
 
 volumes:
   data:
