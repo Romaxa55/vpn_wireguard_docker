@@ -11,18 +11,18 @@ services:
     command: "init -N dns.roshamagin.site -E '127.0.0.1:5443'"
     container_name: dnscrypt_init
     networks:
-      dns-network:
-        ipv4_address: 172.16.238.10
-        ipv6_address: 2001:db8:1::10
+      ip6net:
+        ipv4_address: 172.19.0.10
+        ipv6_address: 2001:db8::10
 
   dnscrypt_server:
     <<: *dnscrypt_base
     command: "start"
     container_name: dnscrypt_server
     networks:
-      dns-network:
-        ipv4_address: 172.16.238.20
-        ipv6_address: 2001:db8:1::20
+      ip6net:
+        ipv4_address: 172.19.0.20
+        ipv6_address: 2001:db8::20
 
   dnscrypt_proxy:
     image: klutchell/dnscrypt-proxy
@@ -36,25 +36,21 @@ services:
     depends_on:
       - dnscrypt_server
     networks:
-      dns-network:
-        ipv4_address: 172.16.238.30
-        ipv6_address: 2001:db8:1::30
+      ip6net:
+        ipv4_address: 172.19.0.30
+        ipv6_address: 2001:db8::30
 
   dig_tester:
     image: tutum/dnsutils
     restart: 'no'
     networks:
-      dns-network:
-        ipv4_address: 172.16.238.40
-        ipv6_address: 2001:db8:1::40
+      ip6net:
+        ipv4_address: 172.19.0.40
+        ipv6_address: 2001:db8::40
     command: ["sh", "-c", "sleep infinity"]
 volumes:
   keys:
 
 networks:
-  dns-network:
-    enable_ipv6: true
-    ipam:
-      config:
-        - subnet: 172.16.238.0/24
-        - subnet: 2001:db8:1::/64
+  ip6net:
+    external: true
