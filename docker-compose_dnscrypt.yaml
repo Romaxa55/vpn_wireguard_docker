@@ -10,6 +10,10 @@ services:
       - TZ='UTC'
     command: "init -N dns.roshamagin.site -E '127.0.0.1:5443'"
     container_name: dnscrypt_init
+    networks:
+      dns-network:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:db8:1::10
 
   dnscrypt_server:
     <<: *dnscrypt_base
