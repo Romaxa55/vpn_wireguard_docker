@@ -1,8 +1,5 @@
 version: '3.7'
 
-volumes:
-  traefik: { driver: local }
-
 services:
   traefik:
     image: "traefik:latest"
