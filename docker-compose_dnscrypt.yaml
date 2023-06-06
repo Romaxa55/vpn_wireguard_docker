@@ -4,8 +4,8 @@ services:
     image: zquestz/dnscrypt-server:latest
     container_name: dnscrypt
     restart: always
-    command: "init -N dns.roshamagin.site -E '57.128.150.138:5443'"
-    #command: "start"
+    #command: "init -N dns.roshamagin.site -E '57.128.150.138:5443'"
+    command: "start"
     ports:
         - '5443:5443/udp'
         - '5443:5443/tcp'
