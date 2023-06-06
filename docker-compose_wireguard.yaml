@@ -50,6 +50,24 @@ services:
           ipv4_address: 172.19.0.100
           ipv6_address: 2001:db8::a:71a5:100
 
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    ip6net:
+          ipv4_address: 172.19.0.53
+          ipv6_address: 2001:db8::a:71a5:53
+    volumes:
+      - ./config/work:/opt/adguardhome/work
+      - ./config/adguard/conf:/opt/adguardhome/conf
+    labels:
+        - traefik.enable=true
+        - traefik.http.routers.adguard.tls=true
+        - traefik.http.routers.adguard.rule=Host(`adguard.vpn.roshamagin.site`)
+        - traefik.http.routers.adguard.entrypoints=websecure
+        - traefik.http.routers.adguard.tls.certresolver=myresolver
+        - traefik.http.services.adguard.loadbalancer.server.port=3000
+
+
 volumes:
   keys:
 
