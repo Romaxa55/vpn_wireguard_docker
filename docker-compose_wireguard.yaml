@@ -24,5 +24,11 @@ services:
       - /lib/modules:/lib/modules #optional
     ports:
       - 63247:51820/udp
-    network_mode: host
+    deploy:
+      mode: global
+    ports:
+    - target: 51820
+      published: 63247
+      protocol: "udp"
+      mode: "host"
 
