@@ -13,8 +13,8 @@ services:
       - SYS_MODULE
     privileged: true
     environment:
-      PUID: 1000
-      PGID: 1000
+      PUID: 0
+      PGID: 0
       TZ: Etc/UTC
       SERVERURL: vpn.roshamagin.site
       SERVERPORT: 63247
