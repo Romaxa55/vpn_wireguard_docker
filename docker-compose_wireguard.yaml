@@ -27,7 +27,7 @@ services:
       - ./config:/config
       - /lib/modules:/lib/modules #optional
     ports:
-      - 63247:51820/udp
+      - 63247:63247/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.forwarding=1
