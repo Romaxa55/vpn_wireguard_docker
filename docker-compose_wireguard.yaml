@@ -22,13 +22,10 @@ services:
     volumes:
       - ./config:/config
       - /lib/modules:/lib/modules #optional
-    ports:
-      - 63247:51820/udp
-    deploy:
-      mode: global
-    ports:
-    - target: 51820
-      published: 63247
-      protocol: "udp"
-      mode: "host"
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv6.conf.eth0.proxy_ndp=1
+    network_mode: host
+    restart: unless-stopped
 
