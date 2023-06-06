@@ -6,6 +6,7 @@ volumes:
 services:
   traefik:
     image: "traefik:latest"
+    restart: always
     environment:
       CF_DNS_API_TOKEN: $CF_API_KEY # use export CF_API_KEY=token clioudflare
     command:
@@ -21,7 +22,6 @@ services:
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
-
     ports:
       - "80:80"
       - "443:443"
@@ -36,44 +36,21 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
-  agent:
-    image: portainer/agent:latest
-    environment:
-      # REQUIRED: Should be equal to the service name prefixed by "tasks." when
-      # deployed inside an overlay network
-      AGENT_CLUSTER_ADDR: tasks.agent
-      # AGENT_PORT: 9001
-      # LOG_LEVEL: debug
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-    networks:
-      - agent_network
-    deploy:
-      mode: global
-      placement:
-        constraints: [node.platform.os == linux]
-
   portainer:
     image: portainer/portainer-ce:latest
-    command: -H tcp://tasks.agent:9001 --tlsskipverify
+    restart: always
     volumes:
       - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - public
-      - agent_network
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.portainer.tls=true
-        - traefik.http.routers.portainer.rule=Host(`portainer.vpn.roshamagin.site`)
-        - traefik.http.routers.portainer.entrypoints=websecure
-        - traefik.http.routers.portainer.tls.certresolver=myresolver
-        - traefik.http.services.portainer.loadbalancer.server.port=9000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.portainer.tls=true
+      - traefik.http.routers.portainer.rule=Host(`portainer.vpn.roshamagin.site`)
+      - traefik.http.routers.portainer.entrypoints=websecure
+      - traefik.http.routers.portainer.tls.certresolver=myresolver
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
 
 
 volumes:

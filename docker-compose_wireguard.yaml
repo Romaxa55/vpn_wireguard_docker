@@ -8,6 +8,7 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
+    restart: always
     environment:
       PUID: 1000
       PGID: 1000
@@ -58,6 +59,7 @@ services:
           ipv4_address: 172.19.0.53
           ipv6_address: 2001:db8::a:71a5:53
        public:
+    restart: always
     volumes:
       - ./config/work:/opt/adguardhome/work
       - ./config/adguard/conf:/opt/adguardhome/conf
@@ -73,6 +75,7 @@ services:
     image: ngoduykhanh/wireguard-ui:latest
     cap_add:
       - NET_ADMIN
+    restart: always
     environment:
       - SENDGRID_API_KEY
       - EMAIL_FROM_ADDRESS
