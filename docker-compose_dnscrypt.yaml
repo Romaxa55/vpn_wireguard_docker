@@ -18,7 +18,7 @@ services:
     networks:
       dns-network:
         ipv4_address: 172.16.238.20
-        ipv6_address: 2001:db8::20
+        ipv6_address: 2001:db8:1::20
 
   dnscrypt_proxy:
     image: klutchell/dnscrypt-proxy
@@ -31,10 +31,10 @@ services:
       - 53:53/udp
     depends_on:
       - dnscrypt_server
-    networks:
+   networks:
       dns-network:
         ipv4_address: 172.16.238.30
-        ipv6_address: 2001:db8::30
+        ipv6_address: 2001:db8:1::30
 
   dig_tester:
     image: tutum/dnsutils
@@ -42,7 +42,7 @@ services:
     networks:
       dns-network:
         ipv4_address: 172.16.238.40
-        ipv6_address: 2001:db8::40
+        ipv6_address: 2001:db8:1::40
     command: ["sh", "-c", "sleep infinity"]
 volumes:
   keys:
