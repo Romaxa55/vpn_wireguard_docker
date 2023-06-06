@@ -52,7 +52,7 @@ services:
       - WGUI_MANAGE_RESTART=false
       - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg0.conf
       - WGUI_SERVER_LISTEN_PORT=63247
-      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=0.0.0.0/0, ::0/0
+      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=10.13.13.0/24,fd42:42:42::0/64
       - WGUI_DEFAULT_CLIENT_ENABLE_AFTER_CREATION=false
     logging:
       driver: json-file
