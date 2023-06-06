@@ -43,6 +43,10 @@ services:
     networks:
       ip6net:
     command: ["sh", "-c", "sleep infinity"]
+    networks:
+       ip6net:
+          ipv4_address: 172.19.0.11
+          ipv6_address: 2001:db8::a:71a5:11
 volumes:
   keys:
 
