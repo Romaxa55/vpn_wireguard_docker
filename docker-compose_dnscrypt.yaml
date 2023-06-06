@@ -20,7 +20,7 @@ services:
     image: klutchell/dnscrypt-proxy
     container_name: dnscrypt_proxy
     volumes:
-      - ./config:/config
+      - ./config/dnscrypt-proxy.toml:/config/dnscrypt-proxy.toml
     restart: always
     depends_on:
       - dnscrypt_server
