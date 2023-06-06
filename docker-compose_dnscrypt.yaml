@@ -40,8 +40,6 @@ services:
     image: tutum/dnsutils
     restart: 'no'
     container_name: dig_tester
-    networks:
-      ip6net:
     command: ["sh", "-c", "sleep infinity"]
     networks:
        ip6net:
