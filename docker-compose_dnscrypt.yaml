@@ -19,8 +19,6 @@ services:
     container_name: dnscrypt_server
     networks:
       ip6net:
-        ipv4_address: 172.19.0.6
-        ipv6_address: 2001:db8::6
 
   dnscrypt_proxy:
     image: klutchell/dnscrypt-proxy
@@ -50,4 +48,9 @@ volumes:
 
 networks:
   ip6net:
-    external: true
+    enable_ipv6: true
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+        - subnet: 2001:db8::a:71a5/125

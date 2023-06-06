@@ -3,7 +3,12 @@ version: '3.7'
 
 networks:
   ip6net:
-    external: true
+    enable_ipv6: true
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+        - subnet: 2001:db8::a:71a5/125
 
 services:
   wireguard:
