@@ -13,6 +13,7 @@
 
 ```bash
 docker network create --ipv6 --subnet 2001:0DB8::/112  --attachable ip6net
+docker network create -d overlay --attachable public
 docker network create -d overlay --ipv6 --subnet=2001:0DB8::/112 --attachable ip6net
 ./scripts/run_vpn.sh
  ```

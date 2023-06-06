@@ -122,5 +122,4 @@ networks:
     driver: overlay
     attachable: true
   public:
-    driver: overlay
-    attachable: true
+     external: true
