@@ -20,7 +20,7 @@ services:
       PEERS: 1
       PEERDNS: auto
       INTERNAL_SUBNET: 10.13.13.0/24,fd42:42:42::0/64
-      ALLOWEDIPS: 0.0.0.0/0, ::0/0
+      ALLOWEDIPS: 10.13.13.0/24,fd42:42:42::0/64
       PERSISTENTKEEPALIVE_PEERS: 25
       LOG_CONFS: "true"
     volumes:
