@@ -57,8 +57,7 @@ services:
     volumes:
       - ./db:/app/db
       - ./config:/etc/wireguard
-    networks:
-      - ip6net
+      - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 1
       labels:
@@ -116,8 +115,6 @@ volumes:
     driver: local
 
 networks:
-  ip6net:
-    external: true
   agent_network:
     driver: overlay
     attachable: true
