@@ -33,6 +33,8 @@ services:
       - dnscrypt_server
     networks:
       ip6net:
+        ipv4_address: 172.19.0.100
+        ipv6_address: 2001:db8::100
 
   dig_tester:
     image: tutum/dnsutils
