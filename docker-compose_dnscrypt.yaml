@@ -19,6 +19,8 @@ services:
     container_name: dnscrypt_server
     networks:
       ip6net:
+        ipv4_address: 172.19.0.6
+        ipv6_address: 2001:db8::6
 
   dnscrypt_proxy:
     image: klutchell/dnscrypt-proxy
@@ -33,13 +35,13 @@ services:
       - dnscrypt_server
     networks:
       ip6net:
-      customnetwork:
-        ipv4_address: 172.20.0.100
-        ipv6_address: 2001:db8::a:71a6
+        ipv4_address: 172.19.0.5
+        ipv6_address: 2001:db8::5
 
   dig_tester:
     image: tutum/dnsutils
     restart: 'no'
+    container_name: dig_tester
     networks:
       ip6net:
     command: ["sh", "-c", "sleep infinity"]
@@ -49,9 +51,3 @@ volumes:
 networks:
   ip6net:
     external: true
-  customnetwork:
-    enable_ipv6: true
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
-        - subnet: 2001:db8::a:71a5/125
