@@ -22,6 +22,9 @@ services:
     volumes:
       - ./config/dnscrypt-proxy.toml:/config/dnscrypt-proxy.toml
     restart: always
+    ports:
+      - 53:5053/tcp
+      - 53:5053/udp
     depends_on:
       - dnscrypt_server
 volumes:
