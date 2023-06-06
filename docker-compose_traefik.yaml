@@ -93,8 +93,6 @@ services:
           - node.role == manager
       labels:
         - traefik.enable=true
-        - traefik.docker.network=public
-        - traefik.constraint-label=public
         - traefik.http.routers.portainer.tls=true
         - traefik.http.routers.portainer.rule=Host(`portainer.vpn.roshamagin.site`)
         - traefik.http.routers.portainer.entrypoints=websecure
