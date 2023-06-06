@@ -876,7 +876,7 @@ skip_incompatible = false
 ## Set with your ISP's resolvers in case of custom prefixes (other than Well-Known Prefix 64:ff9b::/96).
 ## IMPORTANT: Default resolvers listed below support Well-Known Prefix 64:ff9b::/96 only.
 
- resolver = ['[2606:4700:4700::64]:53', '[2001:4860:4860::64]:53']
+# resolver = ['[2606:4700:4700::64]:53', '[2001:4860:4860::64]:53']
 
 
 
