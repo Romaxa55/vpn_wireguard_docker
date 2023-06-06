@@ -51,7 +51,15 @@ services:
       - ./config:/etc/wireguard
     networks:
       - ip6net
-
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.wg-gui.tls=true
+        - traefik.http.routers.wg-gui.rule=Host(`vpn.roshamagin.site`) || Host(`www.vpn.roshamagin.site`)
+        - traefik.http.routers.wg-gui.entrypoints=websecure
+        - traefik.http.routers.wg-gui.tls.certresolver=myresolver
+        - traefik.http.services.wg-gui.loadbalancer.server.port=5000
 networks:
   ip6net:
     external: true
