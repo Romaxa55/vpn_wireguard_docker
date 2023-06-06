@@ -11,7 +11,8 @@ services:
     command:
       - --log.level=DEBUG
       - --providers.docker.network=public
-      - --providers.docker.swarmMode=false
+      - --providers.docker.swarmMode=true
+      - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
@@ -74,6 +75,7 @@ services:
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls.certresolver=myresolver
         - traefik.http.services.portainer.loadbalancer.server.port=9000
+
 
 volumes:
   data:
