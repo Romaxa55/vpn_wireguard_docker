@@ -61,15 +61,15 @@ services:
     volumes:
       - ./config/work:/opt/adguardhome/work
       - ./config/adguard/conf:/opt/adguardhome/conf
-    deploy:
-      replicas: 1
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.adguard.tls=true
-        - traefik.http.routers.adguard.rule=Host(`adguard.roshamagin.site`)
-        - traefik.http.routers.adguard.entrypoints=websecure
-        - traefik.http.routers.adguard.tls.certresolver=myresolver
-        - traefik.http.services.adguard.loadbalancer.server.port=3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adguard.tls=true"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.roshamagin.site`)"
+      - "traefik.http.routers.adguard.entrypoints=websecure"
+      - "traefik.http.routers.adguard.tls.certresolver=myresolver"
+      - "traefik.http.services.adguard.loadbalancer.server.port=3000"
+
+
 volumes:
   keys:
 
