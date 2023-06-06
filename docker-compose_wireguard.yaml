@@ -7,7 +7,7 @@ networks:
 
 services:
   wireguard:
-    image: lscr.io/linuxserver/wireguard:latest
+    image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.0.0
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
