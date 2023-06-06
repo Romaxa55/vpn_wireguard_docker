@@ -68,8 +68,6 @@ services:
         - traefik.http.routers.adguard.entrypoints=websecure
         - traefik.http.routers.adguard.tls.certresolver=myresolver
         - traefik.http.services.adguard.loadbalancer.server.port=3000
-
-
 volumes:
   keys:
 
