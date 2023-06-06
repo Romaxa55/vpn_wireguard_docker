@@ -17,9 +17,9 @@ services:
     container_name: dnscrypt_start
 
   dnscrypt_proxy:
-    image: jedisct1/dnscrypt-proxy
+    image: klutchell/dnscrypt-proxy
     volumes:
-      - ./dnscrypt-proxy.toml:/config/dnscrypt-proxy.toml
+      - ./config:/config
     restart: always
     depends_on:
       - dnscrypt_start
