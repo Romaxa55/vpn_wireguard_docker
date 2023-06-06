@@ -21,12 +21,19 @@ services:
      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
      - --certificatesresolvers.myresolver.acme.email=${LETSENCRYPT_EMAIL?need email for cert expiry notifications}
      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+    networks:
+      - public
     ports:
       - 80:80
       - 443:443
     volumes:
       - traefik:/letsencrypt:rw
       - /run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
   wg-gui:
     image: ngoduykhanh/wireguard-ui:latest
@@ -85,6 +92,7 @@ services:
       - data:/data
     networks:
       - agent_network
+      - public
     deploy:
       mode: replicated
       replicas: 1
@@ -93,6 +101,8 @@ services:
           - node.role == manager
       labels:
         - traefik.enable=true
+        - traefik.docker.network=public
+        - traefik.constraint-label=public
         - traefik.http.routers.portainer.tls=true
         - traefik.http.routers.portainer.rule=Host(`portainer.vpn.roshamagin.site`)
         - traefik.http.routers.portainer.entrypoints=websecure
@@ -111,3 +121,4 @@ networks:
   agent_network:
     driver: overlay
     attachable: true
+  public:
