@@ -13,6 +13,7 @@ networks:
 services:
   wireguard:
     image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.0.3
+    container_name: wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
