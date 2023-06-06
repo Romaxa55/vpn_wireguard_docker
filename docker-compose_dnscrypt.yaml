@@ -4,7 +4,7 @@ services:
     image: zquestz/dnscrypt-server:latest
     container_name: dnscrypt
     restart: always
-    command: "init -N dns.roshamagin.site -E '0.0.0.0:5443'"
+    command: "init -N dns.roshamagin.site -E '127.0.0.1:5443'"
     #command: "start"
     volumes:
       - keys:/opt/encrypted-dns/etc/keys
