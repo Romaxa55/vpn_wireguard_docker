@@ -1,8 +1,7 @@
 version: "3"
 
 services:
-  dnscrypt_init:
-    <<: &dnscrypt_base
+  dnscrypt_init: &dnscrypt_base
     image: zquestz/dnscrypt-server:latest
     restart: always
     volumes:
