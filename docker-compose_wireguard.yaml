@@ -42,4 +42,6 @@ services:
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.all.disable_ipv6=0
     networks:
-      - ip6net
+       ip6net:
+        ipv4_address: 172.19.0.10
+        ipv6_address: 2001:db8::a:71a5:10
