@@ -53,4 +53,4 @@ networks:
     ipam:
       config:
         - subnet: 172.16.238.0/24
-        - subnet: 2001:db8::/64
+        - subnet: 2001:db8:1::/64
