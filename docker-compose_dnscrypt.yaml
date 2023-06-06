@@ -39,6 +39,7 @@ services:
     restart: 'no'
     networks:
       ip6net:
+        ipv4_address: 10.2.0.100
     command: ["sh", "-c", "sleep infinity"]
 volumes:
   keys:
