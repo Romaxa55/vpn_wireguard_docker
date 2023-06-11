@@ -9,6 +9,20 @@
     done
 ) &
 
-wg-api --device=wg0 --listen=0.0.0.0:1234
+# Запускать wg-api в фоне и перезапускать, если он завершается с ошибкой
+(
+    while true; do
+        # Ждать создания интерфейса wg0
+        while ! ip link show wg0 > /dev/null 2>&1; do
+            echo "Ждем создания интерфейса wg0..."
+            sleep 1
+        done
+
+        # Запускать wg-api после создания интерфейса wg0
+        echo "Запускаем wg-api..."
+        wg-api --device=wg0 --listen=0.0.0.0:1234 || echo "wg-api завершился с ошибкой, перезапускаем..."
+    done
+) &
+
 # Запускать WireGuard как обычно
 exec /init
