@@ -95,11 +95,11 @@ services:
       - WGUI_CONFIG_RemoteAPI=http://wireguard:1234
       - WGUI_SCHEDULER_CRON=* */10 * * * *
       - SMTP_HOSTNAME=$SMTP_HOSTNAME
-      - SMTP_PORT=587
+      - SMTP_PORT=465
       - SMTP_USERNAME=$SMTP_USERNAME
       - SMTP_PASSWORD=$SMTP_PASSWORD
       - SMTP_AUTH_TYPE=LOGIN
-      - SMTP_ENCRYPTION=TLS
+      - SMTP_ENCRYPTION=STARTTLS
     logging:
       driver: json-file
       options:
