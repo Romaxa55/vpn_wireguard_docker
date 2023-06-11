@@ -121,6 +121,7 @@ networks:
   public:
     external: true
   wireguard:
+    name: wireguard
   ip6net:
     name: ip6net
     enable_ipv6: true
