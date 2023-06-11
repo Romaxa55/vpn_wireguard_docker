@@ -73,6 +73,7 @@ services:
 
   wg-gui:
     image: ghcr.io/romaxa55/wireguard-ui/wireguard-ui:master
+    container_name: wg-gui
     cap_add:
       - NET_ADMIN
     restart: always
