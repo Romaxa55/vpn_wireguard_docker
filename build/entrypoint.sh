@@ -9,5 +9,6 @@
     done
 ) &
 
+wg-api --device=wg0 --listen=0.0.0.0:1234
 # Запускать WireGuard как обычно
 exec /init
