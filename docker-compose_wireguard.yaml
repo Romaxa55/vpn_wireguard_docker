@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   wireguard:
-    image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.1.0
+    image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.1.1
     container_name: wireguard
     cap_add:
       - NET_ADMIN
@@ -105,7 +105,7 @@ services:
       - traefik.http.routers.wg-gui.rule=Host(`vpn.roshamagin.site`) || Host(`www.vpn.roshamagin.site`)
       - traefik.http.routers.wg-gui.entrypoints=websecure
       - traefik.http.routers.wg-gui.tls.certresolver=myresolver
-      - traefik.http.services.wg-gui.loadbalancer.server.port=5000
+      - traefik.http.services.wg-gui.loadbalancer.server.port=5001
     networks:
       - public
 
