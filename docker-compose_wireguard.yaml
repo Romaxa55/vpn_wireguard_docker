@@ -92,6 +92,7 @@ services:
       - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=0.0.0.0/0, ::0/0
       - WGUI_DEFAULT_CLIENT_ENABLE_AFTER_CREATION=false
       - WGUI_CONFIG_RemoteAPI=http://wireguard:1234
+      - WGUI_SCHEDULER_CRON="10 * * * * *"
     logging:
       driver: json-file
       options:
