@@ -109,6 +109,7 @@ services:
       - traefik.http.services.wg-gui.loadbalancer.server.port=5001
     networks:
       - public
+      - ip6net
 
 volumes:
   keys:
