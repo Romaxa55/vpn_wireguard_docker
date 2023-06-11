@@ -99,6 +99,7 @@ services:
       - SMTP_USERNAME=$SMTP_USERNAME
       - SMTP_PASSWORD=$SMTP_PASSWORD
       - SMTP_AUTH_TYPE=LOGIN
+      - WGUI_LOG_LEVEL=DEBUG
     logging:
       driver: json-file
       options:
