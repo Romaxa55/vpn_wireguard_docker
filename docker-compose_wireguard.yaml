@@ -92,14 +92,11 @@ services:
       - WGUI_DEFAULT_CLIENT_ENABLE_AFTER_CREATION=false
       - WGUI_CONFIG_RemoteAPI=http://wireguard:1234
       - WGUI_SCHEDULER_CRON=0 */10 * * * *
-      - EMAIL_FROM_ADDRESS=$SMTP_USERNAME
-      - EMAIL_FROM_NAME=VPN SERVER
-      - SMTP_HOSTNAME=$SMTP_HOSTNAME
-      - SMTP_PORT=587
-      - SMTP_USERNAME=$SMTP_USERNAME
-      - SMTP_PASSWORD=$SMTP_PASSWORD
-      - SMTP_ENCRYPTION=STARTTLS
-      - SMTP_AUTH_TYPE=LOGIN
+      - EMAIL_FROM_ADDRESS=$EMAIL_FROM_ADDRESS
+      - EMAIL_FROM_NAME=VPN Team
+      - MAILGUN_API_BASE=https://api.eu.mailgun.net/v3
+      - MAILGUN_API_KEY=$MAILGUN_API_KEY
+      - MAILGUN_DOMAIN=roshamagin.site
       - WGUI_LOG_LEVEL=DEBUG
     logging:
       driver: json-file
