@@ -5,8 +5,7 @@
     driver: bridge
     attachable: yes
     ipam_config:
-      subnet: 10.10.10.1/24
-      gateway: 10.10.10.1
+      - subnet: 10.0.0.0/24
     state: present
 
 - name: Git checkout
