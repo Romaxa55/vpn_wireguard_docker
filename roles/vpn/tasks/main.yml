@@ -4,8 +4,10 @@
     name: public
     driver: bridge
     attachable: yes
+    enable_ipv6: true
     ipam_config:
       - subnet: 10.0.0.0/24
+      - subnet: fdd1:ac8c:0557:7ce2::/64
     state: present
 
 - name: Git checkout
@@ -72,23 +74,10 @@
     var: record
   when: debug | bool
 
-- name: Create A and AAAA records for adguard.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+- name: Create A and AAAA records for subdomain proxyd *.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
   community.general.cloudflare_dns:
     zone: "{{ env_vars.DOMAIN_NAME }}"
-    record: "adguard.{{ env_vars.SUBDOMAIN }}"
-    type: "{{ item.type }}"
-    value: "{{ item.value }}"
-    api_token: "{{ env_vars.CF_API_KEY }}"
-    proxied: true
-  loop:
-    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
-    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
-  register: record
-
-- name: Create A and AAAA records for portainer.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
-  community.general.cloudflare_dns:
-    zone: "{{ env_vars.DOMAIN_NAME }}"
-    record: "portainer.{{ env_vars.SUBDOMAIN }}"
+    record: "*.{{ env_vars.SUBDOMAIN }}"
     type: "{{ item.type }}"
     value: "{{ item.value }}"
     api_token: "{{ env_vars.CF_API_KEY }}"
