@@ -1,26 +1,26 @@
 ---
-#- name: Create attachable network
-#  docker_network:
-#    name: public
-#    driver: bridge
-#    attachable: yes
-#    state: present
-#
-#- name: Git checkout
-#  ansible.builtin.git:
-#    repo: "{{ repo }}"
-#    dest: "{{ remote_directory }}"
-#    version: "{{ branch }}"
-#    update: yes
-#
-#- name: Copy .env file
-#  copy:
-#    src: "{{ playbook_dir }}/.env"
-#    dest: "{{ item.dest }}"
-#    mode: "{{ item.mode }}"
-#  loop:
-#    - { dest: "{{ remote_directory }}/.env", mode: "0644" }
-#    - { dest: "/etc/profile.d/vpn.sh", mode: "+x" }
+- name: Create attachable network
+  docker_network:
+    name: public
+    driver: bridge
+    attachable: yes
+    state: present
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: "{{ repo }}"
+    dest: "{{ remote_directory }}"
+    version: "{{ branch }}"
+    update: yes
+
+- name: Copy .env file
+  copy:
+    src: "{{ playbook_dir }}/.env"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - { dest: "{{ remote_directory }}/.env", mode: "0644" }
+    - { dest: "/etc/profile.d/vpn.sh", mode: "+x" }
 
 
 - name: Get env file content
@@ -37,12 +37,12 @@
     var: env_vars
   when: debug | bool
 
-#- name: Install Docker plugin
-#  pip:
-#    name: "{{ item }}"
-#    state: present
-#  loop:
-#    - docker-compose
+- name: Install Docker plugin
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-compose
 
 - name: Collect only facts returned by facter
   ansible.builtin.setup:
@@ -53,15 +53,54 @@
     msg: "IPv4 is {{ ansible_default_ipv4.address }} and IPv6 is {{ ansible_default_ipv6.address }}"
   when: debug | bool
 
-#- name: Create and start services
-#  community.docker.docker_compose:
-#    project_src: "{{ remote_directory }}"
-#    files:
-#      - docker-compose_traefik.yaml
-#  register: output
-#
-#- name: Show results
-#  debug:
-#    var: output
-#  when: debug | bool
+- name: Create A and AAAA records for {{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+  community.general.cloudflare_dns:
+    zone: "{{ env_vars.DOMAIN_NAME }}"
+    record: "{{ env_vars.SUBDOMAIN }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ env_vars.CF_API_KEY }}"
+    proxied: false
+  loop:
+    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
+    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
+  register: record
+
+- name: Debug record
+  debug:
+    var: record
+  when: debug | bool
+
+- name: Create A and AAAA records for adguard.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+  community.general.cloudflare_dns:
+    zone: "{{ env_vars.DOMAIN_NAME }}"
+    record: "adguard.{{ env_vars.SUBDOMAIN }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ env_vars.CF_API_KEY }}"
+    proxied: true
+  loop:
+    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
+    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
+  register: record
+
+- name: Debug record
+  debug:
+    var: record
+  when: debug | bool
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: "{{ remote_directory }}"
+    files:
+      - docker-compose_traefik.yaml
+      - docker-compose_wireguard.yaml
+  register: output
+
+
+
+- name: Show results
+  debug:
+    var: output
+  when: debug | bool
 
