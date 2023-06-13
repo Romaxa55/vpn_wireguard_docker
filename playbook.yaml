@@ -1,19 +1,50 @@
 ---
 - hosts: vpn
   become: yes
-
+  gather_facts: true
   pre_tasks:
+    - name: Remove old ssh key
+      command: ssh-keygen -R "{{ ansible_host }}"
+      delegate_to: localhost'
+      ignore_errors: yes
+      changed_when: false
+      become: no
+      when: remove_key | bool
+
+    - name: Gather package facts
+      package_facts:
+        manager: auto
+
+    - name: Preconfigure grub-pc
+      debconf:
+        name: grub-pc
+        question: grub-pc/install_devices
+        vtype: string
+        value: /dev/sda  # замените это на правильное устройство
+
     - name: Update apt cache and upgrade all packages
       apt:
         update_cache: yes
         upgrade: dist
+        force_apt_get: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        UCF_FORCE_CONFOLD: 1
 
     - name: Ensure packages are installed.
       apt:
         name: "{{ item }}"
         state: present
       loop: "{{ install_package }}"
+      when: item not in ansible_facts.packages
 
   roles:
-    - role: geerlingguy.security
-#    - role: geerlingguy.ssh-chroot-jail
+#    - role: singleplatform-eng.users
+#    - role: geerlingguy.security
+#    - role: geerlingguy.firewall
+     - geerlingguy.docker
+
+  post_tasks:
+    - name: Display all vars
+      debug:
+        var: ansible_facts

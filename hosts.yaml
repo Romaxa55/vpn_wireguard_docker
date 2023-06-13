@@ -5,3 +5,5 @@ all:
       hosts:
         VPN-Norway:
           ansible_host: 185.90.61.16
+          ansible_user: "{{ ssh_user }}" # User firt time user root
+          ansible_port: "{{ security_ssh_port }}" # port 22

@@ -1,10 +1,23 @@
+---
 ssh_user: romaxa55 # Use own user
+security_ssh_port: 22 # Use another new ssh port
 
-ssh_chroot_jail_users:
-  - name: "{{ ssh_user }}"
-    home: /home/"{{ ssh_user }}"
-    shell: /bin/bash
-security_ssh_port: 44222
+
+users:
+  - username: "{{ ssh_user }}"
+    name: DevOps User
+    groups: ['systemd-journal', 'sudo']
+    uid: 1001
+    home: /local/home/{{ ssh_user }}
+    profile: |
+      alias ll='ls -lah'
+    ssh_key: # Use own open keys
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLaPCcjRIsOKJNuTxbOl719uH7TUmQUGTBifccQc/ibXv8fszIFWXX8Ugcsxl1Qc41lLFAhvYf4pgIhcxCoS4FZh/KwddLoA04fhTLW4WpDFf9ptUJ8IZ4VKWNSXsfoE0NrA7vL83A3+9FyELdrsLhDOcsJF3uiMrjYKOfkJ8LNYf1BWOMN30KRzQ6+2gFRHuc77ztf+tKvUPaSBZV7Woqjy316VCSRHYj7RHMiMuPV0jUCmO6seC9TC6L2N21Ri1n1EgQPaxDrfHVY+Mh5HZcnkzE5ZLa8qZgIUd8xIa7C3DOPkZkCuaOqGRBph8s38BNQnRnbxJ9zh79KubMkhJ51B4XD2XDyBAd7qhO5+Yc7Lu6JdasLJoLDW5o7vRN3CUy8KabTzsVu1O4hEr8ths++wY0rG21XC7f+gfgGtPMVYnH6f8FZXYaqUiW/2hx2LxHshWLCSTgFXNAcbYx0hxu2WqJTcane6OFlxJZnGVeFUduOnaavhfmf4SjOciWCzU= romaxa55@MBP-Roman.lan"
+groups_to_create:
+  - name: developers
+    gid: 10000
+
+
 security_ssh_permit_root_login: "yes"
 security_ssh_x11_forwarding: "yes"
 security_ssh_allowed_users:
@@ -15,3 +28,20 @@ security_sudoers_passwordless:
   - "{{ ssh_user }}"
 
 install_package: [sudo, curl, git]
+firewall_allowed_tcp_ports:
+  - "{{ security_ssh_port }}"
+  - "80"
+  - "443"
+firewall_allowed_udp_ports:
+  - "63247"
+
+
+docker_compose_version: "v2.18.1"
+docker_users:
+  - "{{ ssh_user }}"
+docker_daemon_options: {
+  "ipv6": true,
+  "fixed-cidr-v6": "2001:db8:1::/64",
+  "experimental": true,
+  "ip6tables": true
+  }
