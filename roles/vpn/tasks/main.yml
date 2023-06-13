@@ -1,15 +1,38 @@
 ---
-- name: Create attachable network
-  docker_network:
-    name: public
-    driver: bridge
-    attachable: yes
-    state: present
+#- name: Create attachable network
+#  docker_network:
+#    name: public
+#    driver: bridge
+#    attachable: yes
+#    state: present
+#
+#- name: Git checkout
+#  ansible.builtin.git:
+#    repo: "{{ repo }}"
+#    dest: "{{ remote_directory }}"
+#    version: "{{ branch }}"
+#    update: yes
+#
+#- name: Copy .env file
+#  copy:
+#    src: "{{ playbook_dir }}/.env"
+#    dest: "{{ remote_directory }}/.env"
+#    mode: '0644'
 
-- name: Git checkout
-  ansible.builtin.git:
-    repo: 'https://github.com/Romaxa55/vpn_wireguard_docker.git'
-    dest: /opt/vpn_wireguard_docker
-    version: master
-    update: yes
+- name: Read .env file
+  shell: cat "{{ remote_directory }}/.env"
+  register: env_file_content
 
+- name: Parse environment variables
+  set_fact:
+    env_vars: "{{ env_file_content.stdout | regex_findall('\\b^(\\w+)=(.*)\\b') | map('join', ': ') | list }}"
+
+- name: Debug vars .env
+  debug:
+    var: env_vars
+  when: debug | bool
+
+- name: Debug vars .env
+  debug:
+    var: env_vars.DOMAIN_NAME
+  when: debug | bool

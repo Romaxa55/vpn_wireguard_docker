@@ -1,2 +1,5 @@
 ---
 # defaults file for role/vpn
+repo: 'https://github.com/Romaxa55/vpn_wireguard_docker.git'
+branch: 'master'
+remote_directory: /opt/vpn_wireguard_docker
