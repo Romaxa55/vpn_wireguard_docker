@@ -42,10 +42,10 @@
       when: item not in (ansible_facts.packages | default([])) and not (debug | bool)
 
   roles:
-#    - role: singleplatform-eng.users
-#    - role: geerlingguy.security
-#    - role: geerlingguy.firewall
-#     - geerlingguy.docker
+    - role: singleplatform-eng.users
+    - role: geerlingguy.security
+    - role: geerlingguy.firewall
+     - geerlingguy.docker
      - vpn
 
   post_tasks:

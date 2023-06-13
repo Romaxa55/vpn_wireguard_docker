@@ -23,6 +23,7 @@ services:
       LOG_CONFS: "true"
     volumes:
       - ./config:/config
+      - ./config/wg0.conf:/etc/wireguard/wg0.conf:ro
       - /lib/modules:/lib/modules #optional
     ports:
       - 63247:63247/udp
