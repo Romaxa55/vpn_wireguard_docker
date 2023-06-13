@@ -81,7 +81,33 @@
     type: "{{ item.type }}"
     value: "{{ item.value }}"
     api_token: "{{ env_vars.CF_API_KEY }}"
-    proxied: true
+    proxied: false
+  loop:
+    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
+    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
+  register: record
+
+- name: Create A and AAAA records for subdomain proxyd portainer.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+  community.general.cloudflare_dns:
+    zone: "{{ env_vars.DOMAIN_NAME }}"
+    record: "portainer.{{ env_vars.SUBDOMAIN }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ env_vars.CF_API_KEY }}"
+    proxied: false
+  loop:
+    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
+    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
+  register: record
+
+- name: Create A and AAAA records for subdomain adguard *.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+  community.general.cloudflare_dns:
+    zone: "{{ env_vars.DOMAIN_NAME }}"
+    record: "adguard.{{ env_vars.SUBDOMAIN }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ env_vars.CF_API_KEY }}"
+    proxied: false
   loop:
     - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
     - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
@@ -109,7 +135,7 @@
 
 - name: Debug record
   debug:
-    msg: "You server is done https://{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}"
+    msg: "You server is done https://{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }} \n user=alpha\n password=this-unusual-password"
 
 - name: Debug record
   debug:
