@@ -12,3 +12,4 @@
     dest: /opt/vpn_wireguard_docker
     version: master
     update: yes
+

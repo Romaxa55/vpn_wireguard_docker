@@ -3,3 +3,4 @@ config
 !config/.keep
 !config/templates/*.conf
 !config/dnscrypt-proxy.toml
+ .env
