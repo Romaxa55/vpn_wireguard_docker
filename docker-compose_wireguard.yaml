@@ -31,7 +31,7 @@ services:
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.all.disable_ipv6=0
     networks:
-       ip6net:
+       default:
         ipv4_address: 172.19.0.10
         ipv6_address: 2001:db8::a:71a5:10
        wireguard:
@@ -48,7 +48,7 @@ services:
     depends_on:
       - wireguard
     networks:
-       ip6net:
+       default:
           ipv4_address: 172.19.0.100
           ipv6_address: 2001:db8::a:71a5:100
 
@@ -56,7 +56,7 @@ services:
     image: adguard/adguardhome
     container_name: adguard
     networks:
-       ip6net:
+       default:
           ipv4_address: 172.19.0.53
           ipv6_address: 2001:db8::a:71a5:53
        public:
@@ -126,8 +126,8 @@ networks:
     external: true
   wireguard:
     name: wireguard
-  ip6net:
-    name: ip6net
+  default:
+    name: default
     enable_ipv6: true
     attachable: true
     ipam:
