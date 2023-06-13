@@ -13,7 +13,7 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Etc/UTC
-      SERVERURL: vpn.roshamagin.site
+      SERVERURL: vpn.${DOMAIN_NAME}
       SERVERPORT: 63247
       PEERS: 0
       PEERDNS: "dnscrypt_proxy"
@@ -67,7 +67,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.adguard.tls=true"
-      - "traefik.http.routers.adguard.rule=Host(`adguard.roshamagin.site`)"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.${DOMAIN_NAME}`)"
       - "traefik.http.routers.adguard.entrypoints=websecure"
       - "traefik.http.routers.adguard.tls.certresolver=myresolver"
       - "traefik.http.services.adguard.loadbalancer.server.port=3000"
@@ -96,7 +96,7 @@ services:
       - EMAIL_FROM_NAME=VPN Team
       - MAILGUN_API_BASE=https://api.eu.mailgun.net/v3
       - MAILGUN_API_KEY=$MAILGUN_API_KEY
-      - MAILGUN_DOMAIN=roshamagin.site
+      - MAILGUN_DOMAIN=${DOMAIN_NAME}
       - WGUI_LOG_LEVEL=DEBUG
     logging:
       driver: json-file
@@ -110,7 +110,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.wg-gui.tls=true
-      - traefik.http.routers.wg-gui.rule=Host(`vpn.roshamagin.site`) || Host(`www.vpn.roshamagin.site`)
+      - traefik.http.routers.wg-gui.rule=Host(`vpn.$DOMAIN_NAME`) || Host(`www.vpn.$DOMAIN_NAME`)
       - traefik.http.routers.wg-gui.entrypoints=websecure
       - traefik.http.routers.wg-gui.tls.certresolver=myresolver
       - traefik.http.services.wg-gui.loadbalancer.server.port=5001

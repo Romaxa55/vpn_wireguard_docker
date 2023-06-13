@@ -15,7 +15,7 @@ services:
       - --entrypoints.websecure.address=:443
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
-      - --certificatesresolvers.myresolver.acme.email=info@roshamagin.site
+      - --certificatesresolvers.myresolver.acme.email=info@${DOMAIN_NAME}
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
@@ -44,7 +44,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.portainer.tls=true
-      - traefik.http.routers.portainer.rule=Host(`portainer.vpn.roshamagin.site`)
+      - traefik.http.routers.portainer.rule=Host(`portainer.vpn.${DOMAIN_NAME}`)
       - traefik.http.routers.portainer.entrypoints=websecure
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000

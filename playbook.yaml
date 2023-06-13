@@ -14,6 +14,7 @@
     - name: Gather package facts
       package_facts:
         manager: auto
+      when: not (debug | bool)
 
     - name: Preconfigure grub-pc
       debconf:
@@ -21,6 +22,7 @@
         question: grub-pc/install_devices
         vtype: string
         value: /dev/sda  # замените это на правильное устройство
+      when: not (debug | bool)
 
     - name: Update apt cache and upgrade all packages
       apt:
@@ -30,21 +32,26 @@
       environment:
         DEBIAN_FRONTEND: noninteractive
         UCF_FORCE_CONFOLD: 1
+      when: not (debug | bool)
 
     - name: Ensure packages are installed.
       apt:
         name: "{{ item }}"
         state: present
       loop: "{{ install_package }}"
-      when: item not in ansible_facts.packages
+      when:
+        - not (debug | bool)
+        - item not in ansible_facts.packages
 
   roles:
 #    - role: singleplatform-eng.users
 #    - role: geerlingguy.security
 #    - role: geerlingguy.firewall
-     - geerlingguy.docker
+#     - geerlingguy.docker
+     - vpn
 
   post_tasks:
     - name: Display all vars
       debug:
         var: ansible_facts
+      when: not (debug | bool)

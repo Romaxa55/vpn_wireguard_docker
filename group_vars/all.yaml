@@ -1,7 +1,8 @@
 ---
 ssh_user: romaxa55 # Use own user
 security_ssh_port: 22 # Use another new ssh port
-
+remove_key: false
+debug: true
 
 users:
   - username: "{{ ssh_user }}"

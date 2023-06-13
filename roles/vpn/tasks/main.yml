@@ -1,1 +1,13 @@
 ---
+- name: Create attachable network
+  docker_network:
+    name: public
+    driver: bridge
+    attachable: yes
+    state: present
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: 'https://github.com/Romaxa55/vpn_wireguard_docker.git'
+    dest: /opt/vpn_wireguard_docker
+    version: 1.1.1
