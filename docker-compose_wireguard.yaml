@@ -131,7 +131,7 @@ networks:
     enable_ipv6: true
     attachable: true
     ipam:
-      driver: bridge
+      driver: overlay
       config:
         - subnet: 172.19.0.0/16
           gateway: 172.19.0.1
