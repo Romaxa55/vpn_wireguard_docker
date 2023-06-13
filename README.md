@@ -1,25 +1,62 @@
- 
-### Assume ipv6 support and daemon.json set correctly.
-`nano /etc/docker/daemon.json`
+# VPN Wireguard Docker
+
+Этот проект представляет собой реализацию VPN-сервера на базе Wireguard с использованием Docker и AdGuard для блокировки рекламы. Проект создан для обеспечения безопасного и зашифрованного соединения, а также предоставления настройки фильтрации контента.]
+
+Второй репозиторий, [wireguard-ui](https://github.com/Romaxa55/wireguard-ui), представляет собой веб-интерфейс для управления настройками WireGuard. Этот проект является форком от [ngoduykhanh/wireguard-ui](https://github.com/ngoduykhanh/wireguard-ui), но с дополнительными улучшениями.
+
+### Основные изменения и добавления включают:
+
+* Добавлена интеграция с **Mailgun**.
+* Внесены обновления в репозиторий, включая блокировку пользователя и добавление разрешителя.
+* Добавлены новые функции для управления электронной почтой.
+* Обновлены шаблоны и утилиты.
+* Добавил планировщик блокировки клиентов по расписанию
+В общем, эти два репозитория представляют собой улучшенную версию wg-ui, переписанную на Golang, с добавлением статистики клиентов через REST API jRPC и интеграцией с Mailgun для управления электронной почтой.
+
+## Основные компоненты
+
+* **Wireguard**: Обеспечивает надежное и безопасное VPN-соединение.
+* **Docker**: Используется для развертывания AdGuard Home.
+* **AdGuard** Home: Действует как DNS-сервер, который блокирует запросы к известным рекламным и фишинговым серверам ещё до того, как они достигнут вашего устройства.
+* **Traefik**: Используется в качестве обратного прокси и балансировщика нагрузки.
+
+
+Второй репозиторий, [wireguard-ui](https://github.com/Romaxa55/wireguard-ui), представляет собой веб-интерфейс для управления настройками WireGuard. Этот проект является форком от [ngoduykhanh/wireguard-ui](https://github.com/ngoduykhanh/wireguard-ui), но с дополнительными улучшениями.
+
+Основные изменения и добавления включают:
+
+* Добавлена интеграция с **Mailgun**.
+* Внесены обновления в репозиторий, включая блокировку пользователя и добавление разрешителя.
+* Добавлены новые функции для управления электронной почтой.
+* Обновлены шаблоны и утилиты.
+В общем, эти два репозитория представляют собой улучшенную версию wg-ui, переписанную на Golang, с добавлением статистики клиентов через REST API jRPC и интеграцией с Mailgun для управления электронной почтой.
+
+## Установка и настройка
+
+Склонируйте репозиторий на ваш сервер:
+```bash
+git clone https://github.com/Romaxa55/vpn_wireguard_docker.git
+```
+Перейдите в директорию проекта:
+```bash
+cd vpn_wireguard_docker
+```
+Подготовьте файл env_example, переименовав его в .env и заполнив необходимыми значениями.
+Заполните файл hosts.yaml
+
+## Запуск Ansible Playbook
+
+Для запуска Ansible Playbook, выполните следующую команду:
 
 ```bash
-ansible-galaxy collection install community.docker
+ansible-playbook playbook.yaml
 ```
+Дополнительные ресурсы
 
+Для более подробной информации о том, как я реализовывал этот проект, вы можете посмотреть мою статью на моем сайте [https://roshamagin.site/zapiski-devops-polnaia-intierniet-biezopasnost-s-sobstviennym-vpn-siervierom-na-wireguard-i-blokirovkoi-rieklamy-adguard/](https://roshamagin.site/zapiski-devops-polnaia-intierniet-biezopasnost-s-sobstviennym-vpn-siervierom-na-wireguard-i-blokirovkoi-rieklamy-adguard/).
 
-```json
-{
-  "ipv6": true,
-  "fixed-cidr-v6": "2001:db8:1::/64",
-  "experimental": true,
-  "ip6tables": true
-}
-```
+## Лицензия
 
-```bash
-docker network create --ipv6 --subnet 2001:0DB8::/112  --attachable ip6net
+Этот проект лицензирован под лицензией MIT.
 
-docker network create -d overlay --attachable public
-docker network create -d overlay --ipv6 --subnet=2001:0DB8::/112 --attachable ip6net
-./scripts/run_vpn.sh
- ```
+Поблагодарить донатом по ссылке [https://boosty.to/romaxa55/donate](https://boosty.to/romaxa55/donate)
