@@ -32,7 +32,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
     networks:
        ip6net:
-        ipv4_address: 10.19.0.10
+        ipv4_address: 172.19.0.10
         ipv6_address: 2001:db8::a:71a5:10
        wireguard:
 
@@ -49,7 +49,7 @@ services:
       - wireguard
     networks:
        ip6net:
-          ipv4_address: 10.19.0.100
+          ipv4_address: 172.19.0.100
           ipv6_address: 2001:db8::a:71a5:100
 
   adguard:
@@ -57,7 +57,7 @@ services:
     container_name: adguard
     networks:
        ip6net:
-          ipv4_address: 10.19.0.53
+          ipv4_address: 172.19.0.53
           ipv6_address: 2001:db8::a:71a5:53
        public:
     restart: always
@@ -132,7 +132,7 @@ networks:
     attachable: true
     ipam:
       config:
-        - subnet: 10.19.0.0/16
-          gateway: 10.19.0.1
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
         - subnet: 2001:db8::a:71a5/64
           gateway: 2001:db8::a:71a5:1
