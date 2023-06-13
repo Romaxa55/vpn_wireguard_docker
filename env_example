@@ -1,0 +1,6 @@
+DOMAIN_NAME=examble.com
+SUBDOMAIN=vpn
+CF_API_KEY=<you token CloudFlare>
+LETSENCRYPT_EMAIL=info@example.com
+EMAIL_FROM_ADDRESS=vpn@example.com
+MAILGUN_API_KEY=<Sender Token for mailgun>
