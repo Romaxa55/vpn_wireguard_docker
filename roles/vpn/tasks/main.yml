@@ -16,23 +16,52 @@
 #- name: Copy .env file
 #  copy:
 #    src: "{{ playbook_dir }}/.env"
-#    dest: "{{ remote_directory }}/.env"
-#    mode: '0644'
+#    dest: "{{ item.dest }}"
+#    mode: "{{ item.mode }}"
+#  loop:
+#    - { dest: "{{ remote_directory }}/.env", mode: "0644" }
+#    - { dest: "/etc/profile.d/vpn.sh", mode: "+x" }
 
-- name: Read .env file
-  shell: cat "{{ remote_directory }}/.env"
+
+- name: Get env file content
+  slurp:
+    src: "{{ remote_directory }}/.env"
   register: env_file_content
 
-- name: Parse environment variables
+- name: Parse environment
   set_fact:
-    env_vars: "{{ env_file_content.stdout | regex_findall('\\b^(\\w+)=(.*)\\b') | map('join', ': ') | list }}"
+    env_vars: "{{ ('{' + (env_file_content.content | b64decode).split('\n') | select | map('regex_replace', '([^=]*)=(.*)', '\"\\1\": \"\\2\"') | join(',') + '}') | from_json }}"
 
 - name: Debug vars .env
   debug:
     var: env_vars
   when: debug | bool
 
-- name: Debug vars .env
+#- name: Install Docker plugin
+#  pip:
+#    name: "{{ item }}"
+#    state: present
+#  loop:
+#    - docker-compose
+
+- name: Collect only facts returned by facter
+  ansible.builtin.setup:
+    filter: ansible_default_ipv4,ansible_default_ipv6
+
+- name: Print IPv4 and IPv6
   debug:
-    var: env_vars.DOMAIN_NAME
+    msg: "IPv4 is {{ ansible_default_ipv4.address }} and IPv6 is {{ ansible_default_ipv6.address }}"
   when: debug | bool
+
+#- name: Create and start services
+#  community.docker.docker_compose:
+#    project_src: "{{ remote_directory }}"
+#    files:
+#      - docker-compose_traefik.yaml
+#  register: output
+#
+#- name: Show results
+#  debug:
+#    var: output
+#  when: debug | bool
+

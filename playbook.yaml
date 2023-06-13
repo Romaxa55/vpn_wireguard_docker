@@ -5,7 +5,7 @@
   pre_tasks:
     - name: Remove old ssh key
       command: ssh-keygen -R "{{ ansible_host }}"
-      delegate_to: localhost'
+      delegate_to: localhost
       ignore_errors: yes
       changed_when: false
       become: no
@@ -39,9 +39,7 @@
         name: "{{ item }}"
         state: present
       loop: "{{ install_package }}"
-      when:
-        - not (debug | bool)
-        - item not in ansible_facts.packages
+      when: item not in (ansible_facts.packages | default([])) and not (debug | bool)
 
   roles:
 #    - role: singleplatform-eng.users

@@ -3,6 +3,7 @@ version: '3.7'
 services:
   traefik:
     image: "traefik:latest"
+    container_name: traefik
     restart: always
     environment:
       CF_DNS_API_TOKEN: $CF_API_KEY # use export CF_API_KEY=token clioudflare
@@ -35,6 +36,7 @@ services:
 
   portainer:
     image: portainer/portainer-ce:latest
+    container_name: portainer
     restart: always
     volumes:
       - data:/data
@@ -44,7 +46,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.portainer.tls=true
-      - traefik.http.routers.portainer.rule=Host(`portainer.vpn.${DOMAIN_NAME}`)
+      - traefik.http.routers.portainer.rule=Host(`portainer.${SUBDOMAIN}.${DOMAIN_NAME}`)
       - traefik.http.routers.portainer.entrypoints=websecure
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000

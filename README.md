@@ -2,6 +2,11 @@
 ### Assume ipv6 support and daemon.json set correctly.
 `nano /etc/docker/daemon.json`
 
+```bash
+ansible-galaxy collection install community.docker
+```
+
+
 ```json
 {
   "ipv6": true,

@@ -13,7 +13,7 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Etc/UTC
-      SERVERURL: vpn.${DOMAIN_NAME}
+      SERVERURL: ${SUBDOMAIN}.${DOMAIN_NAME}
       SERVERPORT: 63247
       PEERS: 0
       PEERDNS: "dnscrypt_proxy"
@@ -67,7 +67,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.adguard.tls=true"
-      - "traefik.http.routers.adguard.rule=Host(`adguard.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.adguard.rule=Host(`adguard.$SUBDOMAIN.$DOMAIN_NAME`)"
       - "traefik.http.routers.adguard.entrypoints=websecure"
       - "traefik.http.routers.adguard.tls.certresolver=myresolver"
       - "traefik.http.services.adguard.loadbalancer.server.port=3000"
@@ -110,7 +110,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.wg-gui.tls=true
-      - traefik.http.routers.wg-gui.rule=Host(`vpn.$DOMAIN_NAME`) || Host(`www.vpn.$DOMAIN_NAME`)
+      - traefik.http.routers.wg-gui.rule=Host(`$SUBDOMAIN.$DOMAIN_NAME`) || Host(`www.$SUBDOMAIN.$DOMAIN_NAME`)
       - traefik.http.routers.wg-gui.entrypoints=websecure
       - traefik.http.routers.wg-gui.tls.certresolver=myresolver
       - traefik.http.services.wg-gui.loadbalancer.server.port=5001
