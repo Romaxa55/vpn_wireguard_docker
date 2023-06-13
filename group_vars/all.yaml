@@ -42,7 +42,6 @@ docker_users:
   - "{{ ssh_user }}"
 docker_daemon_options: {
   "ipv6": true,
-  "fixed-cidr-v6": "2001:db8:1::/64",
   "experimental": true,
   "ip6tables": true
   }

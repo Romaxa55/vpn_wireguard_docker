@@ -1,106 +1,112 @@
 ---
-- name: Create attachable network
-  docker_network:
-    name: public
-    driver: bridge
-    attachable: yes
-    state: present
-
-- name: Git checkout
-  ansible.builtin.git:
-    repo: "{{ repo }}"
-    dest: "{{ remote_directory }}"
-    version: "{{ branch }}"
-    update: yes
-
-- name: Copy .env file
-  copy:
-    src: "{{ playbook_dir }}/.env"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode }}"
-  loop:
-    - { dest: "{{ remote_directory }}/.env", mode: "0644" }
-    - { dest: "/etc/profile.d/vpn.sh", mode: "+x" }
-
-
-- name: Get env file content
-  slurp:
-    src: "{{ remote_directory }}/.env"
-  register: env_file_content
-
-- name: Parse environment
-  set_fact:
-    env_vars: "{{ ('{' + (env_file_content.content | b64decode).split('\n') | select | map('regex_replace', '([^=]*)=(.*)', '\"\\1\": \"\\2\"') | join(',') + '}') | from_json }}"
-
-- name: Debug vars .env
-  debug:
-    var: env_vars
-  when: debug | bool
-
-- name: Install Docker plugin
-  pip:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - docker-compose
-
-- name: Collect only facts returned by facter
-  ansible.builtin.setup:
-    filter: ansible_default_ipv4,ansible_default_ipv6
-
-- name: Print IPv4 and IPv6
-  debug:
-    msg: "IPv4 is {{ ansible_default_ipv4.address }} and IPv6 is {{ ansible_default_ipv6.address }}"
-  when: debug | bool
-
-- name: Create A and AAAA records for {{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
-  community.general.cloudflare_dns:
-    zone: "{{ env_vars.DOMAIN_NAME }}"
-    record: "{{ env_vars.SUBDOMAIN }}"
-    type: "{{ item.type }}"
-    value: "{{ item.value }}"
-    api_token: "{{ env_vars.CF_API_KEY }}"
-    proxied: false
-  loop:
-    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
-    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
-  register: record
-
-- name: Debug record
-  debug:
-    var: record
-  when: debug | bool
-
-- name: Create A and AAAA records for adguard.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
-  community.general.cloudflare_dns:
-    zone: "{{ env_vars.DOMAIN_NAME }}"
-    record: "adguard.{{ env_vars.SUBDOMAIN }}"
-    type: "{{ item.type }}"
-    value: "{{ item.value }}"
-    api_token: "{{ env_vars.CF_API_KEY }}"
-    proxied: true
-  loop:
-    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
-    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
-  register: record
-
-- name: Debug record
-  debug:
-    var: record
-  when: debug | bool
+#- name: Create attachable network
+#  docker_network:
+#    name: public
+#    driver: bridge
+#    attachable: yes
+#    state: present
+#
+#- name: Git checkout
+#  ansible.builtin.git:
+#    repo: "{{ repo }}"
+#    dest: "{{ remote_directory }}"
+#    version: "{{ branch }}"
+#    update: yes
+#
+#- name: Copy .env file
+#  copy:
+#    src: "{{ playbook_dir }}/.env"
+#    dest: "{{ item.dest }}"
+#    mode: "{{ item.mode }}"
+#  loop:
+#    - { dest: "{{ remote_directory }}/.env", mode: "0644" }
+#    - { dest: "/etc/profile.d/vpn.sh", mode: "+x" }
+#
+#- name: Get env file content
+#  slurp:
+#    src: "{{ remote_directory }}/.env"
+#  register: env_file_content
+#
+#- name: Parse environment
+#  set_fact:
+#    env_vars: "{{ ('{' + (env_file_content.content | b64decode).split('\n') | select | map('regex_replace', '([^=]*)=(.*)', '\"\\1\": \"\\2\"') | join(',') + '}') | from_json }}"
+#
+#- name: Debug vars .env
+#  debug:
+#    var: env_vars
+#  when: debug | bool
+#
+#- name: Install Docker plugin
+#  pip:
+#    name: "{{ item }}"
+#    state: present
+#  loop:
+#    - docker-compose
+#
+#- name: Collect only facts returned by facter
+#  ansible.builtin.setup:
+#    filter: ansible_default_ipv4,ansible_default_ipv6
+#
+#- name: Print IPv4 and IPv6
+#  debug:
+#    msg: "IPv4 is {{ ansible_default_ipv4.address }} and IPv6 is {{ ansible_default_ipv6.address }}"
+#  when: debug | bool
+#
+#- name: Create A and AAAA records for {{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+#  community.general.cloudflare_dns:
+#    zone: "{{ env_vars.DOMAIN_NAME }}"
+#    record: "{{ env_vars.SUBDOMAIN }}"
+#    type: "{{ item.type }}"
+#    value: "{{ item.value }}"
+#    api_token: "{{ env_vars.CF_API_KEY }}"
+#    proxied: false
+#  loop:
+#    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
+#    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
+#  register: record
+#
+#- name: Debug record
+#  debug:
+#    var: record
+#  when: debug | bool
+#
+#- name: Create A and AAAA records for adguard.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}
+#  community.general.cloudflare_dns:
+#    zone: "{{ env_vars.DOMAIN_NAME }}"
+#    record: "adguard.{{ env_vars.SUBDOMAIN }}"
+#    type: "{{ item.type }}"
+#    value: "{{ item.value }}"
+#    api_token: "{{ env_vars.CF_API_KEY }}"
+#    proxied: true
+#  loop:
+#    - { type: 'A', value: "{{ ansible_default_ipv4.address }}" }
+#    - { type: 'AAAA', value: "{{ ansible_default_ipv6.address }}" }
+#  register: record
+#
+#- name: Debug record
+#  debug:
+#    var: record
+#  when: debug | bool
 
 - name: Create and start services
   community.docker.docker_compose:
     project_src: "{{ remote_directory }}"
     files:
-      - docker-compose_traefik.yaml
-      - docker-compose_wireguard.yaml
+     - "{{ item }}"
+  loop:
+     - docker-compose_traefik.yaml
+     - docker-compose_wireguard.yaml
   register: output
-
-
 
 - name: Show results
   debug:
     var: output
   when: debug | bool
 
+- name: Debug record
+  debug:
+    msg: "You server is done https://{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}"
+
+- name: Debug record
+  debug:
+    msg: "You adguard is done https://adguard.{{ env_vars.SUBDOMAIN }}.{{ env_vars.DOMAIN_NAME }}"
