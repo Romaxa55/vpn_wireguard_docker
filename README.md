@@ -53,7 +53,7 @@ ansible-playbook playbook.yaml
 ```
 Дополнительные ресурсы
 
-Для более подробной информации о том, как я реализовывал этот проект, вы можете посмотреть мою статью на моем сайте [https://roshamagin.site/zapiski-devops-polnaia-intierniet-biezopasnost-s-sobstviennym-vpn-siervierom-na-wireguard-i-blokirovkoi-rieklamy-adguard/](https://roshamagin.site/zapiski-devops-polnaia-intierniet-biezopasnost-s-sobstviennym-vpn-siervierom-na-wireguard-i-blokirovkoi-rieklamy-adguard/).
+Для более подробной информации о том, как я реализовывал этот проект, вы можете посмотреть мою статью на моем сайте [https://roshamagin.site](https://roshamagin.site/zapiski-devops-polnaia-intierniet-biezopasnost-s-sobstviennym-vpn-siervierom-na-wireguard-i-blokirovkoi-rieklamy-adguard/).
 
 ## Лицензия
 
