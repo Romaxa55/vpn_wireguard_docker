@@ -1,0 +1,17 @@
+ssh_user: romaxa55 # Use own user
+
+ssh_chroot_jail_users:
+  - name: "{{ ssh_user }}"
+    home: /home/"{{ ssh_user }}"
+    shell: /bin/bash
+security_ssh_port: 44222
+security_ssh_permit_root_login: "yes"
+security_ssh_x11_forwarding: "yes"
+security_ssh_allowed_users:
+  - "{{ ssh_user }}"
+security_ssh_allowed_groups:
+  - "{{ ssh_user }}"
+security_sudoers_passwordless:
+  - "{{ ssh_user }}"
+
+install_package: [sudo, curl, git]

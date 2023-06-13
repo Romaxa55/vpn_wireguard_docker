@@ -1,0 +1,19 @@
+---
+- hosts: vpn
+  become: yes
+
+  pre_tasks:
+    - name: Update apt cache and upgrade all packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Ensure packages are installed.
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ install_package }}"
+
+  roles:
+    - role: geerlingguy.security
+#    - role: geerlingguy.ssh-chroot-jail

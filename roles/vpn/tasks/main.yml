@@ -1,0 +1,10 @@
+---
+- name: Include SSH setup tasks
+  include_tasks: ssh_setup.yml
+  tags:
+    - ssh
+
+- name: Include user creation tasks
+  include_tasks: user_setup.yml
+  tags:
+    - user

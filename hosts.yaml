@@ -1,0 +1,7 @@
+---
+all:
+  children:
+    vpn:
+      hosts:
+        VPN-Norway:
+          ansible_host: 185.90.61.16

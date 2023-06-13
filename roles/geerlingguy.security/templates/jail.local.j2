@@ -1,0 +1,19 @@
+[sshd]
+enabled = true
+port    = {{ security_ssh_port }}
+filter  = sshd
+
+[http-get-dos]
+enabled = true
+port    = http,https
+filter  = http-get-dos
+action  = iptables[name=HTTP, port=http, protocol=tcp]
+         sendmail-whois[name=HTTP, dest=root@localhost, sender=fail2ban@localhost]
+logpath = %(apache_error_log)s
+maxretry = 20
+
+[wireguard]
+enabled = true
+port    = 63247
+protocol = udp
+filter  = wireguard
