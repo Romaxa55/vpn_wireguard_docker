@@ -45,8 +45,8 @@
     - role: singleplatform-eng.users
     - role: geerlingguy.security
     - role: geerlingguy.firewall
-     - geerlingguy.docker
-     - vpn
+    - role: geerlingguy.docker
+    - role: vpn
 
   post_tasks:
     - name: Display all vars
