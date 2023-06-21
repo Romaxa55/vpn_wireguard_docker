@@ -27,6 +27,7 @@
     generate_ssh_key: "{{ item.generate_ssh_key | default(omit) }}"
     update_password: "{{ item.update_password | default(omit) }}"
   with_items: "{{ users }}"
+  ignore_errors: true
   tags: ['users','configuration']
 
 - name: SSH keys

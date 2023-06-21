@@ -9,7 +9,7 @@ users:
     name: DevOps User
     groups: ['systemd-journal', 'sudo']
     uid: 1001
-    home: /local/home/{{ ssh_user }}
+    home: /home/{{ ssh_user }}
     profile: |
       alias ll='ls -lah'
     ssh_key: # Use own open keys
