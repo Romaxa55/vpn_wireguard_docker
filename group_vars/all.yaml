@@ -43,5 +43,6 @@ docker_users:
 docker_daemon_options: {
   "ipv6": true,
   "experimental": true,
-  "ip6tables": true
+  "ip6tables": true,
+  "fixed-cidr-v6": "fd00::/80"
   }
