@@ -37,21 +37,21 @@ services:
         ipv6_address: 2001:db8::a:71a5:10
        wireguard:
 
-#  dnscrypt_proxy:
-#    image: klutchell/dnscrypt-proxy
-#    container_name: dnscrypt_proxy
-#    volumes:
-#      - ./config/dnscrypt-proxy.toml:/config/dnscrypt-proxy.toml
-#    restart: always
-#    ports:
-#      - 53:53/tcp
-#      - 53:53/udp
-#    depends_on:
-#      - wireguard
-#    networks:
-#       ip6net:
-#          ipv4_address: 172.19.0.100
-#          ipv6_address: 2001:db8::a:71a5:100
+  dnscrypt_proxy:
+    image: klutchell/dnscrypt-proxy
+    container_name: dnscrypt_proxy
+    volumes:
+      - ./config/dnscrypt-proxy.toml:/config/dnscrypt-proxy.toml
+    restart: always
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+    depends_on:
+      - wireguard
+    networks:
+       ip6net:
+          ipv4_address: 172.19.0.100
+          ipv6_address: 2001:db8::a:71a5:100
 
   adguard:
     image: adguard/adguardhome
