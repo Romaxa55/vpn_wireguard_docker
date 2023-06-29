@@ -2,9 +2,10 @@
 
 # Запускать процесс слежения в фоне
 (
-    while inotifywait -e modify -t 5 /config/wg0.conf; do
+    while inotifywait -e modify /config/wg0.conf; do
         echo "Конфигурационный файл WireGuard был изменен, перезапуск WireGuard."
         wg-quick down wg0
+        sleep 1
         wg-quick up wg0
     done
 ) &
