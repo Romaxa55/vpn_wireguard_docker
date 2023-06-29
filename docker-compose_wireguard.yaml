@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   wireguard:
-    image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.1.1
+    image: ghcr.io/romaxa55/vpn_wireguard_docker/wireguard:1.1.2
     container_name: wireguard
     cap_add:
       - NET_ADMIN
@@ -74,7 +74,7 @@ services:
       - "traefik.http.services.adguard.loadbalancer.server.port=3000"
 
   wg-gui:
-    image: ghcr.io/romaxa55/wireguard-ui/wireguard-ui:1.1.0
+    image: ghcr.io/romaxa55/wireguard-ui/wireguard-ui:1.1.1
     container_name: wg-gui
     cap_add:
       - NET_ADMIN
